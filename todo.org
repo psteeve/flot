@@ -1,0 +1,3 @@
+* Implementing methods for write-stream
+* Implementing methods for read-write-stream
+* Add test suite
