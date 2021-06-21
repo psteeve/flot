@@ -13,6 +13,7 @@
    :peek-for
    :set-to-end
    :up-to
+   :up-to-end
    :limit-stream))
 
 (in-package :read-stream)
@@ -68,6 +69,16 @@
   (do ((n (next stream) (next stream))
        (result '() (push  n result)))
       ((or (eql n value) (at-end-p stream)) (reverse result))))
+
+(defmethod up-to-end ((stream read-stream))
+  (labels ((to-end (result)
+             (if (at-end-p stream)
+                 (reverse result)
+                 (progn
+                   (push (next stream) result)
+                   (to-end result)))))
+    (to-end '())))
+
 
 (defmethod skip ((stream read-stream) n)
   (with-slots (position) stream
