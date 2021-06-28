@@ -1,5 +1,5 @@
 (defpackage :flot.stream
-  (:use :common-lisp :read-stream)
+  (:use :common-lisp)
   (:export
    :flot
    :at-end-p
