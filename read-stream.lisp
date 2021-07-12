@@ -14,6 +14,7 @@
    :set-to-end
    :up-to
    :up-to-end
+   :read-stream
    :limit-stream))
 
 (in-package :read-stream)
@@ -66,9 +67,14 @@
     (setf position limit-stream)))
 
 (defmethod up-to ((stream read-stream) value)
-  (do ((n (next stream) (next stream))
-       (result '() (push  n result)))
-      ((or (eql n value) (at-end-p stream)) (reverse result))))
+  (labels ((recur (result at-end-p)
+             (let ((n (next stream)))
+               (if (or (eql n value) at-end-p)
+                   (reverse result)
+                   (progn
+                     (push n result)                     
+                     (recur result (at-end-p stream)))))))
+    (recur '() (at-end-p stream)))))
 
 (defmethod up-to-end ((stream read-stream))
   (labels ((to-end (result)
@@ -78,7 +84,6 @@
                    (push (next stream) result)
                    (to-end result)))))
     (to-end '())))
-
 
 (defmethod skip ((stream read-stream) n)
   (with-slots (position) stream

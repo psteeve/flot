@@ -38,6 +38,14 @@
                     nil))
       (check (equal (read-stream:peek-for stream #\t) 0)))))
 
+(st-test:deftest test-up-to ()
+  (let ((stream (read-stream:read-stream-on "toto a la test")))
+    (combine-results
+      (check (equal (read-stream:up-to stream #\Space)
+                    '(#\t #\o #\t #\o)))
+      (check (equal (read-stream:up-to stream #\Space) '(#\a)))
+      (check (equal (read-stream:up-to stream #\Space) '(#\p #\e #\l #\o #\t #\t #\e))))))
+
 (st-test:deftest test-set-to-end ()
   (let ((stream (read-stream:read-stream-on "test")))
     (read-stream:set-to-end stream)
