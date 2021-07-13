@@ -74,7 +74,7 @@
                    (progn
                      (push n result)                     
                      (recur result (at-end-p stream)))))))
-    (recur '() (at-end-p stream)))))
+    (recur '() (at-end-p stream))))
 
 (defmethod up-to-end ((stream read-stream))
   (labels ((to-end (result)
