@@ -70,7 +70,7 @@
   (labels ((recur (result at-end-p)
              (let ((n (next stream)))
                (if (or (eql n value) at-end-p)
-                   (reverse result)
+                   (nreverse result)
                    (progn
                      (push n result)                     
                      (recur result (at-end-p stream)))))))
